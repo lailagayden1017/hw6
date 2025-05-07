@@ -95,5 +95,78 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
 //add your solution here!
+	if(r >= board.size() || c >= board.size()){
+		return false;
+	}
+	word += board[r][c];
+	if(prefix.find(word) == prefix.end() && dict.find(word) == dict.end()){
+		return false;
+	}
+
+	bool isFound = boggleHelper(dict, prefix, board, word, result, r + dr, c + dc, dr, dc); 
+
+	if(dict.find(word) != dict.end() && isFound == false){
+		result.insert(word);
+	}
+
+	if(dict.find(word)!= dict.end() || isFound){
+		return true;
+	}
+	else{
+		return false; 
+	}
+	// if(dict.find(word) != dict.end()){
+	// 	bool insert = true; 
+	// 	std::vector<std::string> erase;
+
+		// auto it = result.find(word.substr(0, word.size() - 1));
+		// if(it != result.end() && word.size() > it->size()){
+		// 	result.erase(it);
+		// }
+		// bool skip = false; 
+
+		// for(const std::string& existing : result){
+		// 	if(existing.find(word) == 0 && existing.length() > word.length()){
+		// 		insert = false; 
+		// 		break;
+		// 	}
+		// 	else if(word.find(existing) == 0 && word.length() > existing.length()){
+		// 		erase.push_back(existing);
+		// 	}
+		// }
+
+		// for(const std::string& s : erase){
+		// 	result.erase(s);
+		// }
+
+		// if(insert){
+		// 	result.insert(word);
+		// 	longer = true; 
+		// }
+
+		// for(auto it = result.begin(); it!= result.end(); ){
+		// 	if(it->substr(0, word.size()) == word && it->size() > word.size()){
+		// 		insert = false;
+		// 		break;
+		// 	}
+		// 	else if(word.substr(0, it->size()) == *it && word.size() > it->size()){
+		// 		it = result.erase(it);
+		// 	}
+		// 	else{
+		// 		++it;
+		// 	}
+		// }
+		// if(insert){
+		// 	result.insert(word);
+		// 	longer = true;
+		// }
+	//}
+	// if(r+dr < board.size() && c + dc < board.size()){
+	// 	bool found = boggleHelper(dict, prefix, board, word, result, r + dr, c + dc, dr, dc);
+	// 	return longer || found;
+	// }
+
+	// return longer;
+	
 
 }

@@ -20,14 +20,54 @@ struct MyStringHash {
     HASH_INDEX_T operator()(const std::string& k) const
     {
         // Add your code here
+		const int groupMax = 5;
+		const int size = 6; 
+		unsigned long long w[groupMax] = {0};
+
+		std::string lower; 
+		for(char ch : k){
+			lower += std::tolower(ch);
+		}
+
+		int strLen = lower.length();
+		int cnt = (strLen + size - 1)/ size;
+
+		for(int i = 0; i < cnt; ++i){
+			unsigned long long v = 0;
+			int start = strLen - (i+ 1) * size;
+			int end = strLen - i * size; 
+
+			if(start < 0) start = 0;
+
+			std::string group = lower.substr(start, end - start);
 
 
+
+			for(std::size_t j = 0; j < group.length(); ++j){
+				v = v * 36 + letterDigitToNumber(group[j]);
+			}
+
+			w[groupMax - 1 - i] = v;
+		}
+		unsigned long long hash = 0; 
+		for(int i = 0; i < groupMax; ++i){
+			hash += rValues[i] * w[i];
+		}		
+		return hash;
     }
 
     // A likely helper function is to convert a-z,0-9 to an integral value 0-35
     HASH_INDEX_T letterDigitToNumber(char letter) const
     {
         // Add code here or delete this helper function if you do not want it
+		letter = std::tolower(letter);
+		if(letter >= 'a' && letter <= 'z'){
+			return letter - 'a';
+		}
+		else if(letter >= '0' && letter <= '9'){
+			return letter - '0' + 26;
+		}
+		return 0;
 
     }
 
